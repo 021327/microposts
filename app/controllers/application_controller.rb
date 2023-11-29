@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-
+  before_action :set_counts
   include SessionsHelper  #追記
   include Pagy::Backend
 
@@ -11,9 +11,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def counts(user)
-    @count_microposts = user.microposts.count
-    @count_followings = user.followings.count
-    @count_followers = user.followers.count
+  def set_counts
+    if current_user
+      @count_microposts = current_user.microposts.count
+      @count_followings = current_user.followings.count
+      @count_followers = current_user.followers.count
+    end
   end
+end
   

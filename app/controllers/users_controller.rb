@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in, only: [:index, :show, :followings, :followers]
+  before_action :set_user, only: [:show]
+
 
   def index
     @pagy, @users = pagy(User.order(id: :desc), items: 25)
@@ -8,7 +10,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @pagy, @microposts = pagy(@user.microposts.order(id: :desc))
-    counts(@user)
+    @user.counts
   end
 
   def new
@@ -43,5 +45,14 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+  
+  def likes
+    @user = User.find(params[:id])
+    @microposts = @user.favorite_microposts
+  end
+  
+  def set_user
+    @user = User.find(params[:id])
   end
 end

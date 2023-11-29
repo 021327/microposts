@@ -1,0 +1,8 @@
+<div class="container mt-5">
+  <h2><%= @user.name %>'s Favorites</h2>
+  <% if @microposts.any? %>
+    <%= render 'microposts/microposts', microposts: @microposts %>
+  <% else %>
+    <p>No favorites yet.</p>
+  <% end %>
+</div>
