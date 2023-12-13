@@ -14,14 +14,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
   
-  
- resources :microposts do
-  member do
-    post 'favorite', to: 'favorites#create'
-    delete 'unfavorite', to: 'favorites#destroy'
+  resources :microposts, only: [:create, :destroy] do
+    member do
+      post 'favorite', to: 'favorites#create'
+      delete 'unfavorite', to: 'favorites#destroy'
+    end
   end
- end
 end
