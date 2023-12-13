@@ -18,18 +18,8 @@
       </div>
 
       <%= f.submit 'Log in', class: 'btn btn-primary w-100' %>
-
-      <% if @user.errors.any? %>
-        <div id="error_explanation" class="alert alert-warning">
-          <ul class="mb-0">
-            <% @user.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-
     <% end %>
+
 
     <p>New user? <%= link_to 'Sign up now!', signup_path %></p>
   </div>
