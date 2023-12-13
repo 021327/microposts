@@ -1,7 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show, :followings, :followers]
-  before_action :set_user, only: [:show]
-
+  before_action :require_user_logged_in, only: [:index, :show, :followings, :followers, :likes]
 
   def index
     @pagy, @users = pagy(User.order(id: :desc), items: 25)
@@ -10,7 +8,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @pagy, @microposts = pagy(@user.microposts.order(id: :desc))
-    @user.counts
+    counts(@user)
   end
 
   def new
@@ -40,6 +38,13 @@ class UsersController < ApplicationController
     @pagy, @followers = pagy(@user.followers)
     counts(@user)
   end
+  
+  # private より上に移動。内容も以下に修正
+  def likes
+    @user = User.find(params[:id])
+    @pagy, @favorites = pagy(@user.favorite_microposts)
+    counts(@user)
+  end
 
   private
 
@@ -47,12 +52,4 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
   
-  def likes
-    @user = User.find(params[:id])
-    @microposts = @user.favorite_microposts
-  end
-  
-  def set_user
-    @user = User.find(params[:id])
-  end
 end
